@@ -4,6 +4,7 @@ import inquirer from "inquirer";
 import chalk from "chalk";
 let mypin=12345;
 let myBal=20000;
+
 let pinAnswer = await inquirer.prompt(
     {
         message:"Enter your pincode",
@@ -11,6 +12,7 @@ let pinAnswer = await inquirer.prompt(
         type:"number"
     }
     )
+    console.log(`Your account balance is $`,myBal)
     if (pinAnswer.pincode===mypin){
         console.log(chalk.greenBright `Your pincode is correct.`)
     
@@ -22,7 +24,7 @@ let pinAnswer = await inquirer.prompt(
     });
 
     if (operatorAns.operation==="Check Bal"){
-        console.log(chalk.yellowBright`Your current balance is ${myBal}`)
+        console.log(chalk.yellowBright`Your current balance is $`,myBal)
      } 
    
 else if (operatorAns.operation==="Withdraw"){
@@ -32,7 +34,15 @@ else if (operatorAns.operation==="Withdraw"){
                 name:"amount",
                 type:"number",
         },
-     ); console.log(chalk.bgBlue`Your remaining balance is ${(myBal-=amountAns.amount)}`)
+        
+     );
+     
+     if (amountAns.amount<=myBal){
+        let balance= myBal-amountAns.amount;
+      console.log(chalk.bgBlue`Your remaining balance is $`,balance)
+     }else{
+        console.log(chalk.bgCyan`You have insufficient balance`)
+      }
 }else if (operatorAns.operation==="Fast Cash"){
     let fastcashAns = await inquirer.prompt(
   [
@@ -44,8 +54,12 @@ else if (operatorAns.operation==="Withdraw"){
     },
 ]
 );
+if (fastcashAns.fastcash<=myBal){
+    let balance2 = myBal-fastcashAns.fastcash
+console.log(chalk.greenBright`Your remaining balance is $`,balance2)
+}else{
     console.log(chalk.greenBright`Thank you`)
 }
     }else{
         console.log(chalk.redBright`Your pincode is invalid!!!`)
-    }
+    }};
